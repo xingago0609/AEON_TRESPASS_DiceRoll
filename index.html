@@ -1553,7 +1553,7 @@ html&gt;body{padding:0}&lt;/style&gt;
       &lt;label class=&quot;form-label&quot;&gt;紅骰數量（0–24）&lt;input id=&quot;pd-red&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;24&quot; step=&quot;1&quot; value=&quot;4&quot; required&gt;&lt;/label&gt;
       &lt;label class=&quot;form-label&quot;&gt;破勢 token 數量&lt;input id=&quot;pd-token&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;1000&quot; step=&quot;1&quot; value=&quot;2&quot; required&gt;&lt;/label&gt;
       &lt;label class=&quot;form-label&quot;&gt;目標傷害（含）&lt;input id=&quot;pd-target&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0&quot; max=&quot;1000&quot; step=&quot;1&quot; value=&quot;5&quot; required&gt;&lt;/label&gt;
-      &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary&quot;&gt;計算所有組合&lt;/button&gt;
+      &lt;button id=&quot;pd-calculate&quot; type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;計算所有組合&lt;/button&gt;
     &lt;/div&gt;
   &lt;/form&gt;
   &lt;p id=&quot;pd-error&quot; role=&quot;alert&quot; class=&quot;text-destructive&quot; hidden&gt;&lt;/p&gt;
@@ -1661,8 +1661,10 @@ html&gt;body{padding:0}&lt;/style&gt;
     get(&#x27;pd-select&#x27;).innerHTML=results.map((x,i)=&gt;`&lt;option value=&quot;${i}&quot;&gt;${label(x)}&lt;/option&gt;`).join(&#x27;&#x27;);
     showDistribution();
   }
+  // 獨立網頁使用按鈕點擊與輸入事件，確保受限框架中也能即時計算。
+  get(&#x27;pd-calculate&#x27;).addEventListener(&#x27;click&#x27;,update);
   get(&#x27;pd-form&#x27;).addEventListener(&#x27;submit&#x27;,e=&gt;{e.preventDefault();update();});
-  for(const id of [&#x27;pd-red&#x27;,&#x27;pd-token&#x27;,&#x27;pd-target&#x27;]) get(id).addEventListener(&#x27;change&#x27;,update);
+  for(const id of [&#x27;pd-red&#x27;,&#x27;pd-token&#x27;,&#x27;pd-target&#x27;]) get(id).addEventListener(&#x27;input&#x27;,update);
   get(&#x27;pd-select&#x27;).addEventListener(&#x27;change&#x27;,showDistribution);
   update();
 })();
